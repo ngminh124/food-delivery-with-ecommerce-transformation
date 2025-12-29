@@ -18,14 +18,20 @@ export class GlobalMiddleWare {
     static async auth(req, res, next){
         const header_auth= req.headers.authorization;
         const token = header_auth ? header_auth.slice(7, header_auth.length) : null; // 'Bearer '.length =7
+        // const authHeader= header_auth.split(' ');  const token1= authHeader[1];
         try{
-            req.errorStatus= 401;
-            const decoded = await Jwt.jwtVerify(token);
+            if(!token){
+                req.status(401);
+                next(new Error('User does not exist'));
+                
+            }
+            const decoded= await Jwt.jwtVerify(token);
             req.user= decoded;
             next();
         }
         catch(e){
-            next(e);
+            // next(e);
+            next(new Error('User does not exist'));
         }
     }
 }

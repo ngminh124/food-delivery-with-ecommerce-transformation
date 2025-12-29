@@ -7,10 +7,13 @@ import { getEnvironmentVariables } from '../environments/environment';
 export class Jwt{
 
     static jwtSign(payload){
+        const p1={
+            // audience =id, iss :'myapp.com'
+        };
             return JWT.sign(
                     payload,
                     getEnvironmentVariables().jwt_secret_key, 
-                    {expiresIn: '180d'}
+                    {expiresIn: '180d', issuer: 'minh.com'}
                 );
         }
         static jwtVerify(token : string): Promise<any>{

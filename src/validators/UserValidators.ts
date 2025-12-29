@@ -31,7 +31,7 @@ export class UserValidators {
                 
                 ] ;
     }
-    static verifyUserEmail(){
+    static verifyUserEmailToken(){
         return [
             body('verification_token', 'Verification token is required').isString(),
             
