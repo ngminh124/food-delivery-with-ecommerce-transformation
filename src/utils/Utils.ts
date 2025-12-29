@@ -1,8 +1,5 @@
-import { parse } from "node:path";
 import * as Bcrypt from 'bcrypt';
-import { hash } from "bcrypt";
-import * as JWT from 'jsonwebtoken';
-import { getEnvironmentVariables } from '../environments/environment';
+
 
 export class Utils{
 
@@ -44,11 +41,5 @@ export class Utils{
         });
         });
     } 
-    static jwtSign(payload){
-        return JWT.sign(
-                payload,
-                getEnvironmentVariables().jwt_secret_key, 
-                {expiresIn: '180d'}
-            );
-    }
+    
 }

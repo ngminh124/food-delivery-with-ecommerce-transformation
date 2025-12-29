@@ -19,7 +19,7 @@ class UserRouter {
     }
 
     getRoutes() {
-        this.router.get('/send_verification/email', UserValidators.verifyUserForResendEmail(),UserController.resendVerificationEmail); 
+        this.router.get('/send/verification/email', GlobalMiddleWare.auth, UserController.resendVerificationEmail); 
         this.router.get('/login', UserValidators.login(),GlobalMiddleWare.checkError, UserController.login); 
         // this.router.get('/test', UserController.signup, UserController.test2);
     }
@@ -27,7 +27,7 @@ class UserRouter {
         this.router.post('/signup',UserValidators.signup(), GlobalMiddleWare.checkError, UserController.signup); 
     }
     patchRoutes() {
-        this.router.patch('/verify',UserValidators.verifyUserEmail(), GlobalMiddleWare.checkError, UserController.verify); 
+        this.router.patch('/verify',UserValidators.verifyUser(), GlobalMiddleWare.checkError, GlobalMiddleWare.auth, UserController.verify); 
     }
     putRoutes() {
 

@@ -3,6 +3,8 @@ import { Utils } from '../utils/Utils';
 import { NodeMailer } from '../utils/NodeMailer';
 import * as JWT from 'jsonwebtoken';
 import { getEnvironmentVariables } from '../environments/environment';
+import { Jwt } from '../utils/Jwt';
+
 
 export class UserController {
 
@@ -46,7 +48,7 @@ export class UserController {
                 user_id: user._id,
                 email: user.email, 
             }
-            const token = Utils.jwtSign(payload);
+            const token = Jwt.jwtSign(payload);
             console.log('token: ', token);
             
             res.json({
@@ -68,7 +70,7 @@ export class UserController {
 
     static async verify(req, res, next){
         const verification_token= req.body.verification_token;
-        const email = req.body.email;
+        const email = req.user.email;
         try{
             const user = await User.findOneAndUpdate({
             email: email,
@@ -79,7 +81,7 @@ export class UserController {
             email_verified: true
         },
         {
-            new: true
+            new: true 
         });
         if(user){
             res.send(user)
@@ -93,7 +95,8 @@ export class UserController {
         }
     }
     static async resendVerificationEmail(req, res, next){
-        const email = req.query.email;
+        // res.send(req.user);
+        const email = req.user.email;
         const verification_token= Utils.generateVerificationToken();
        
         try{
@@ -134,7 +137,7 @@ export class UserController {
                 user_id: user._id,
                 email: user.email,
             }
-            const token = Utils.jwtSign(payload);
+            const token = Jwt.jwtSign(payload);
             console.log('token: ', token);
             
             res.json({
