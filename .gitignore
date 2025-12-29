@@ -4,6 +4,9 @@ node_modules/
 # Learning reports & personal notes
 LEARNING_REPORT.md
 
+# Test/demo files
+allcode.ts
+
 # Environment files - Không đẩy lên GitHub
 src/environments/environment.dev.ts
 src/environments/environment.prod.ts
