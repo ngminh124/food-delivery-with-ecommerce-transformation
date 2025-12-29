@@ -87,7 +87,7 @@ export class UserController {
             res.send(user)
         }
         else{
-            throw new Error('Email verification token is expired. Please try again.');
+            throw new Error('Wrong Otp or Email verification token is expired. Please try again...');
         }
     }
         catch(e){

@@ -33,7 +33,7 @@ export class UserValidators {
     }
     static verifyUser(){
         return [
-            body('verification_token', 'Verification token is required').isNumeric(),
+            body('verification_token', 'Verification token is required').isString(),
             
         ];
     }
