@@ -1,91 +1,91 @@
-# Báo cáo hướng dẫn khởi tạo và chạy dự án
+# Food Delivery with E-commerce Transformation
 
-## 1. Chuẩn bị môi trường
+A Node.js + TypeScript + Express + MongoDB backend application for food delivery service.
 
-- Cài đặt Node.js phiên bản 18 trở lên (dự án khai báo node ^24.12.0).
-- Đảm bảo có quyền cài đặt gói toàn cục (global) bằng npm.
+## 🚀 Quick Start
 
-## 2. Khởi tạo dự án mới
+### Prerequisites
 
-```bash
-npm init
-```
+- Node.js 18+
+- MongoDB Atlas account or local MongoDB
+- npm or yarn
 
-- Làm theo lời nhắc để tạo `package.json` (hãy giữ script `start` như đã cấu hình để chạy `nodemon --exec ts-node src/index.ts`).
-
-## 3. Cài đặt TypeScript và ts-node toàn cục
+### Installation
 
 ```bash
-npm install -g typescript ts-node
+# Install dependencies
+npm install
+
+# Setup environment files
+# Copy and configure your environment settings
+cp src/environments/environment.dev.example.ts src/environments/environment.dev.ts
+cp src/environments/environment.prod.example.ts src/environments/environment.prod.ts
+
+# Edit the files above with your actual credentials
 ```
 
-- Cung cấp lệnh biên dịch TypeScript (`tsc`) và chạy trực tiếp file `.ts` (`ts-node`) trên mọi dự án.
+### Environment Configuration
 
-## 4. Cài đặt phụ thuộc cục bộ cho dự án
-
-```bash
-npm install typescript ts-node express node @types/express @types/node nodemon @types/nodemon
-```
-
-- `typescript`, `ts-node`: hỗ trợ biên dịch/khởi chạy TypeScript trong dự án.
-- `express`: framework web.
-- `node`: khai báo phiên bản Node.js mong muốn trong phụ thuộc.
-- `nodemon`: tự động khởi động lại khi mã nguồn thay đổi.
-- Bộ `@types/...`: cung cấp định nghĩa kiểu cho TypeScript.
-
-## 4.1. Cài đặt Mongoose để kết nối MongoDB
-
-```bash
-npm install mongoose @types/mongoose
-```
-
-- `mongoose`: Thư viện ODM để kết nối và thao tác với MongoDB.
-- `@types/mongoose`: Type definitions cho TypeScript.
-
-## 5. Cấu hình dự án TypeScript
-
-- Kiểm tra `tsconfig.json` đã bao gồm thư mục nguồn `src` và thiết lập phù hợp (`target`, `module`, v.v.).
-- Đảm bảo file `src/index.ts` là điểm vào chính của ứng dụng.
-
-## 5.1. Kết nối MongoDB trong src/index.ts
+Create your environment files in `src/environments/` with the following structure:
 
 ```typescript
-import * as mongoose from "mongoose";
-
-// Kết nối MongoDB
-mongoose
-  .connect(
-    process.env.MONGODB_URI ||
-      "mongodb+srv://username:password@cluster.mongodb.net/?appName=myapp"
-  )
-  .then(() => {
-    console.log("✅ Connected to MongoDB");
-  })
-  .catch((error) => {
-    console.error("❌ MongoDB connection error:", error);
-  });
+export const DevEnvironment = {
+  db_url: "your-mongodb-connection-string",
+  jwt_secret_key: "your-secret-key",
+  sendgrid_api_key: {
+    api_key: "your-api-key",
+    email_from: "your-email",
+  },
+  gmail_auth: {
+    user: "your-email",
+    pass: "your-app-password",
+  },
+};
 ```
 
-**⚠️ Lưu ý bảo mật:**
+**⚠️ Security Note:** Never commit environment files with actual credentials to git!
 
-- Không hard-code password trực tiếp trong code
-- Sử dụng environment variables (`.env` file)
-- Thêm `.env` vào `.gitignore`
-
-## 6. Chạy server ở môi trường phát triển
+### Run Development Server
 
 ```bash
 npm run start
 ```
 
-- Script `start` gọi `nodemon --exec ts-node src/index.ts`, vì vậy mỗi lần thay đổi file `.ts` sẽ tự động reload.
+Server will start with nodemon and auto-reload on file changes.
 
-## 7. Kiểm tra hoạt động
+## 📁 Project Structure
 
-- Nếu dùng Express, truy cập `http://localhost:<port>` (ví dụ 3000) để xác minh server chạy đúng.
-- Kiểm tra terminal để chắc chắn không có lỗi TypeScript.
+```
+src/
+├── controllers/     # Request handlers
+├── models/          # Database models
+├── routers/         # API routes
+├── validators/      # Input validation
+├── middlewares/     # Custom middlewares
+├── utils/           # Utility functions
+└── environments/    # Environment configs (not tracked in git)
+```
 
-## 8. Ghi chú thêm
+## 🛠️ Tech Stack
 
-- Nếu gặp lỗi quyền khi cài gói global, hãy chạy terminal dưới quyền Administrator.
-- Để triển khai sản xuất, nên biên dịch TypeScript sang JavaScript (`npx tsc`) và chạy bằng Node.js thuần (`node dist/index.js`).
+- **Runtime:** Node.js + TypeScript
+- **Framework:** Express.js
+- **Database:** MongoDB + Mongoose
+- **Validation:** express-validator
+- **Email:** NodeMailer, SendGrid
+- **Authentication:** JWT
+
+## 📝 Available Scripts
+
+- `npm run start` - Start development server with auto-reload
+- `npm run build` - Compile TypeScript to JavaScript
+
+## 🔒 Security
+
+- All sensitive data is stored in environment files (not tracked in git)
+- JWT for authentication
+- Input validation on all endpoints
+
+## 📧 Contact
+
+For questions or issues, please open an issue on GitHub.
