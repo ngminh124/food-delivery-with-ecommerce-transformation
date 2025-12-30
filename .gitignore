@@ -17,6 +17,9 @@ build/
 *.js
 *.js.map
 
+# Uploads
+src/uploads/
+
 # Logs
 *.log
 logs/
