@@ -25,7 +25,7 @@ class BannerRouter {
         )
     }
     postRoutes() {
-        this.router.post('/create/banner',GlobalMiddleWare.auth, 
+        this.router.post('/create',GlobalMiddleWare.auth, 
                                     GlobalMiddleWare.adminRole,
                                     new Utils().multer.single('banner'), 
                                     BannerValidators.addBanner(),
