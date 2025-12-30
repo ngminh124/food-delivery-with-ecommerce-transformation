@@ -48,6 +48,7 @@ export class UserController {
                 // user_id: user._id,
                 aud: user._id,
                 email: user.email, 
+                type: user.type
             }
             const token = Jwt.jwtSign(payload);
             
@@ -141,6 +142,7 @@ export class UserController {
                 aud: user._id,
                 // user_id: user._id,
                 email: user.email,
+                type: user.type
             }
             const token = Jwt.jwtSign(payload);
             console.log('token: ', token);
@@ -279,6 +281,7 @@ export class UserController {
                 // user_id: user._id,
                 aud: user.aud,
                 email: updatedUser.email, 
+                type: updatedUser.type
             }
             const token = Jwt.jwtSign(payload);
             

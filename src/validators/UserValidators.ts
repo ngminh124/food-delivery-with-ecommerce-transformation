@@ -32,6 +32,7 @@
         body("status", "User status is required").isString(),
         ];
     }
+    
     static verifyUserEmailToken() {
         return [
         body("verification_token", "Verification token is required").isString(),
