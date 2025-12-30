@@ -154,6 +154,7 @@
         body("new_email", "New email is required")
             .isEmail()
             .custom((new_email, { req }) => {
+                if(req.user.email === new_email) throw new Error("Please provide a new email to update");
                 return User.findOne({email: new_email})
                 .then((user) => {
                     if (user) {
