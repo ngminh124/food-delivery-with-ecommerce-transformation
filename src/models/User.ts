@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
     password: {type: String, required: true},
     reset_password_token: {type: String, required: false},
     reset_password_token_time: {type: Date, required: false},
-    phonenumber: {type: String, required: false},
+    phone: {type: String, required: false},
     name: {type: String, required: true},
     type: {type: String, required: true},
     status: {type: String, required: true},
