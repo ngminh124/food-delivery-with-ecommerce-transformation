@@ -1,10 +1,15 @@
 import { validationResult } from "express-validator";
 import { Jwt } from "../utils/Jwt";
+import * as fs from "fs";
 
 export class GlobalMiddleWare {
   static checkError(req, res, next) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      // Xóa file đã upload nếu validation fail
+      if (req.file) {
+        fs.unlinkSync(req.file.path);
+      }
       return next(new Error(errors.array()[0].msg));
     } else {
       next();

@@ -17,4 +17,5 @@ const userSchema = new mongoose.Schema({
     updated_at: {type: Date, required: true, default: new Date()},
 });
 
+
 export default mongoose.model('users', userSchema)

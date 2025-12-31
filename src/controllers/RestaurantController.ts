@@ -1,3 +1,4 @@
+import Banner from "../models/Banner";
 import Category from "../models/Category";
 import Restaurant from "../models/Restaurant";
 import User from "../models/User";
@@ -23,13 +24,12 @@ export class RestaurantController {
       };
 
       const user = await new User(data).save();
-      const categoriesData = JSON.parse(
-        restaurant.categories).map(x => {
-          return {
-            name: x,
-            user_id: user._id,
-          };
-        });
+      const categoriesData = JSON.parse(restaurant.categories).map((x) => {
+        return {
+          name: x,
+          user_id: user._id,
+        };
+      });
       const categories = Category.insertMany(categoriesData);
       let restaurant_data: any = {
         name: restaurant.res_name,
@@ -68,6 +68,77 @@ export class RestaurantController {
     try {
       const restaurants = await Restaurant.find({ status: "active" });
       res.send(restaurants);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  static async getNearbyRestaurants(req, res, next) {
+    // const METERS_PER_MILE = 1609.34;
+    // const METERS_PER_KM = 1000;
+    // const EARTH_RADIUS_IN_MILE = 3963.2;
+    const EARTH_RADIUS_IN_KM = 6378.1;
+    const data = req.query;
+    try {
+      const nearbyRestaurants = await Restaurant.find({
+        status: "active",
+        location: {
+          // $nearSphere: {
+          //   $geometry: {
+          //     type: "Point",
+          //     coordinates: [parseFloat(data.lng), parseFloat(data.lat)],
+          //   },
+          //   $maxDistance: parseFloat(data.radius) * METERS_PER_KM, // radius in km
+          // },
+          $geoWithin: { 
+                            $centerSphere: [ 
+                                [parseFloat(data.lat), parseFloat(data.lng) ], 
+                                parseFloat(data.radius) /  EARTH_RADIUS_IN_KM
+                            ]
+                        }
+        },
+      });
+      // const banner = await Banner.find({ status: true });
+      res.send({
+        nearbyRestaurants,
+        // banners: banner,
+      });
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  static async searchNearbyRestaurants(req, res, next) {
+    // const METERS_PER_MILE = 1609.34;
+    // const METERS_PER_KM = 1000;
+    // const EARTH_RADIUS_IN_MILE = 3963.2;
+    const EARTH_RADIUS_IN_KM = 6378.1;
+    const data = req.query;
+    try {
+      const nearbyRestaurants = await Restaurant.find({
+        status: "active",
+        name: { $regex: data.name, $options: "i" },
+        location: {
+          // $nearSphere: {
+          //   $geometry: {
+          //     type: "Point",
+          //     coordinates: [parseFloat(data.lng), parseFloat(data.lat)],
+          //   },
+          //   $maxDistance: parseFloat(data.radius) * METERS_PER_KM, // radius in km
+          // },
+          $geoWithin: { 
+                            $centerSphere: [ 
+                                [parseFloat(data.lat), parseFloat(data.lng) ], 
+                                parseFloat(data.radius) /  EARTH_RADIUS_IN_KM
+                            ]
+                        }
+        },
+      });
+      // const banner = await Banner.find({ status: true });
+      res.send({
+        nearbyRestaurants,
+        // banners: banner,
+      });
     } catch (e) {
       next(e);
     }

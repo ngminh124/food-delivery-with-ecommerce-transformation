@@ -3,7 +3,7 @@ import { body } from "express-validator";
 export class BannerValidators {
     static addBanner() {
         return [
-        body("banner", "Banner is required")
+        body("bannerImages", "Banner image is required")
             .custom((banner, { req }) => {
             if (!req.file) throw new Error("File not uploaded");
             else return true;

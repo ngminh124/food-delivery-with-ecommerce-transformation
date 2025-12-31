@@ -22,13 +22,21 @@ class RestaurantRouter {
       GlobalMiddleWare.auth,
       RestaurantController.getRestaurants
     );
+    this.router.get("/nearbyRestaurants", GlobalMiddleWare.auth, 
+                    RestaurantValidators.getNearbyRestaurants(),
+                    GlobalMiddleWare.checkError, 
+                    RestaurantController.getNearbyRestaurants);
+    this.router.get("/searchNearbyRestaurants", GlobalMiddleWare.auth,
+                    RestaurantValidators.searchNearbyRestaurants(),
+                    GlobalMiddleWare.checkError,
+                    RestaurantController.searchNearbyRestaurants);
   }
   postRoutes() {
     this.router.post(
       "/create",
       GlobalMiddleWare.auth,
       GlobalMiddleWare.adminRole,
-      new Utils().multer.single("cover"),
+      new Utils().multer.single("restaurantImages"),
       RestaurantValidators.addRestaurant(),
       GlobalMiddleWare.checkError,
       RestaurantController.addRestaurant
