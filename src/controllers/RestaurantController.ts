@@ -1,4 +1,3 @@
-import Banner from "../models/Banner";
 import Category from "../models/Category";
 import Restaurant from "../models/Restaurant";
 import User from "../models/User";
@@ -24,13 +23,15 @@ export class RestaurantController {
       };
 
       const user = await new User(data).save();
-      const categoriesData = JSON.parse(restaurant.categories).map((x) => {
-        return {
-          name: x,
-          user_id: user._id,
-        };
-      });
-      const categories = Category.insertMany(categoriesData);
+      // const categoriesData = JSON.parse(restaurant.categories).map((x) => {
+      //   return {
+      //     name: x,
+      //     user_id: user._id,
+      //   };
+      // });
+
+
+      // const categories = Category.insertMany(categoriesData);
       let restaurant_data: any = {
         name: restaurant.res_name,
         short_name: restaurant.short_name,
@@ -58,6 +59,13 @@ export class RestaurantController {
       //     restaurant_data = {... restaurant_data, cover: path};
       // }
       const restaurantDoc = await new Restaurant(restaurant_data).save();
+      const categoriesData = JSON.parse(restaurant.categories).map((x) => {
+        return {
+          name: x,
+          restaurant_id: restaurantDoc._id,
+        };
+      });
+      const categories = Category.insertMany(categoriesData);
       res.send(restaurantDoc);
     } catch (e) {
       next(e);
@@ -71,7 +79,7 @@ export class RestaurantController {
     } catch (e) {
       next(e);
     }
-  }
+  }  
 
   static async getNearbyRestaurants(req, res, next) {
     // const METERS_PER_MILE = 1609.34;

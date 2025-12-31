@@ -1,9 +1,10 @@
 import * as mongoose from 'mongoose';
 import { Model } from 'mongoose';
+import { ref } from 'node:process';
 
 const restaurantSchema = new mongoose.Schema({
-    user_id: {type: mongoose.Types.ObjectId, required: true},
-    city_id: {type: mongoose.Types.ObjectId, required: true},
+    user_id: {type: mongoose.Types.ObjectId, ref: 'users', required: true},
+    city_id: {type: mongoose.Types.ObjectId, ref: 'cities', required: true},
     name: {type: String, required: true},
     short_name: {type: String, required: true},
     description: {type: String},
