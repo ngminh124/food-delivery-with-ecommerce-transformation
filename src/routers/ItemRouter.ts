@@ -3,6 +3,7 @@ import { ItemController } from "../controllers/ItemController";
 import { ItemValidators } from "../validators/ItemValidators";
 import { GlobalMiddleWare } from "../middlewares/GlobalMiddleWare";
 import { Utils } from "../utils/Utils";
+import Item from "../models/Item";
 
 class ItemRouter {
   public router: Router;
@@ -18,6 +19,11 @@ class ItemRouter {
 
   getRoutes() {
     // this.router.get('/items', ItemController.getItems)
+    this.router.get('/menuItems/:restaurantId', 
+      GlobalMiddleWare.auth,
+      ItemValidators.getMenuItems(),
+      GlobalMiddleWare.checkError,
+      ItemController.getMenu, )
   }
   postRoutes() {
     this.router.post(

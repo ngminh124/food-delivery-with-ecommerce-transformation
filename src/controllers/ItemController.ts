@@ -1,4 +1,5 @@
 import Banner from "../models/Banner";
+import Category from "../models/Category";
 import Item from "../models/Item";
 
 export class ItemController {
@@ -32,6 +33,28 @@ export class ItemController {
         try{
             
         }catch(e){
+            next(e);
+        }
+    }
+
+    static async getMenu(req, res, next){
+        const restaurant = req.restaurant;
+        // const res_id= restaurant._id;
+        try{
+            const categories= await Category.find({restaurant_id: restaurant._id}, {__v:0});
+            const items = await Item.find(
+                {
+                    status: true,
+                    restaurant_id: restaurant._id
+                }
+            );
+            res.json({
+                restaurant,
+                categories,
+                items
+            })
+        }
+        catch(e){
             next(e);
         }
     }

@@ -6,7 +6,7 @@ export class ItemValidators {
   static addItem() {
     return [
       body("itemImages", "Item images are required").custom(
-        (cover, { req }) => {
+        (cover, { req }) => { 
           if (!req.file) throw new Error("File not uploaded");
           else return true;
         }
@@ -51,5 +51,26 @@ export class ItemValidators {
 
       // param('id')
     ];
+  }
+
+  static getMenuItems() {
+    return [
+      param("restaurantId", "Item restaurant Id is required")
+        .isString()
+        .custom((restaurantId, { req }) => {
+          return Restaurant.findById(restaurantId)
+            .then((restaurant) => {
+              if (restaurant) {
+                req.restaurant = restaurant;
+                return true;
+              } else {
+                throw new Error("Restaurant does not exist");
+              }
+            })
+            .catch((e) => {
+              throw new Error(e);
+            });
+        }),
+    ]
   }
 }

@@ -20,7 +20,6 @@ class BannerRouter {
 
     getRoutes() {
         this.router.get('/banners', GlobalMiddleWare.auth,
-                                    GlobalMiddleWare.adminRole,
                                     BannerController.getBanners
         )
     }
