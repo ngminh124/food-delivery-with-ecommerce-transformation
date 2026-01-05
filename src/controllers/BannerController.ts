@@ -11,8 +11,11 @@ export class BannerController {
         // res.send(file);
         const path= req.file.path.replace(/\\/g, '/');
         try{
-            const data={
+            let data: any ={
                 banner: path,
+            };
+            if(req.body.restaurant_id){
+                data={...data, restaurant_id: req.body.restaurant_id};
             }
             const banner= await new Banner(data).save();
             res.send(banner);
