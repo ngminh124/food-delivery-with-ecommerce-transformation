@@ -16,13 +16,24 @@ export class AddressController {
       };
       const address = await new Address(addressData).save();
     //   delete address.user_id;
-      res.send(address);
+    const reponseAddress = {
+        _id: address._id,
+        title: address.title,
+        address: address.address,
+        landmark: address.landmark,
+        house: address.house,
+        lat: address.lat,
+        lng: address.lng,
+        created_at: address.created_at,
+        updated_at: address.updated_at,
+    }
+      res.send(reponseAddress);
     } catch (e) {
       next(e);
     }
   }
 
-  static async getAddresses(req, res, next) {
+  static async getUserAddresses(req, res, next) {
     const user_id = req.user.aud;
     try {
       const addresses = await Address.find({ user_id }, { __v: 0, user_id: 0 });
@@ -32,7 +43,7 @@ export class AddressController {
     }
   }
 
-  static async getLimitedAddresses(req, res, next) {
+  static async getLimitedUserAddresses(req, res, next) {
     const user_id = req.user.aud;
     const limit = req.query.limit
     try {
@@ -64,7 +75,8 @@ export class AddressController {
       const address = await Address.findOne({
         user_id,
         _id: id,
-      });
+      },
+      { __v: 0, user_id: 0 });
       res.send(address);
     } catch (e) {
       next(e);
@@ -90,7 +102,7 @@ export class AddressController {
           lng: data.lng,
           updated_at: new Date(),
         },
-        { new: true }
+        { new: true, projection: { __v: 0, user_id: 0 } }
       );
       if(editedAddress) res.send(editedAddress);
       else throw new Error('Address does not exist.');

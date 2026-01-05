@@ -17,9 +17,9 @@ class AddressRouter {
 
   getRoutes() {
     this.router.get(
-      "/addresses",
+      "/userAddresses",
       GlobalMiddleWare.auth,
-      AddressController.getAddresses
+      AddressController.getUserAddresses
     );
     this.router.get(
       "/checkAddress",
@@ -29,11 +29,11 @@ class AddressRouter {
       AddressController.checkAddress
     );
     this.router.get(
-      "/getLimitedAddresses",
+      "/getLimitedUserAddresses",
       GlobalMiddleWare.auth,
-      AddressValidators.getLimitedAddresses(),
+      AddressValidators.getLimitedUserAddresses(),
       GlobalMiddleWare.checkError,
-      AddressController.getLimitedAddresses
+      AddressController.getLimitedUserAddresses
     );
     
     // this.router.get(
