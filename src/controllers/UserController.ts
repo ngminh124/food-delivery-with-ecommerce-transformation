@@ -172,6 +172,7 @@ export class UserController {
         if(user){
             
             res.json({success: true});
+            console.log('reset password otp: ', reset_password_token);
              await NodeMailer.sendMail({
                 to: [user.email],
                 subject: 'Reset Password email verification OTP',

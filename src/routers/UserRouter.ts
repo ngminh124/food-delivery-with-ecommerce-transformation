@@ -36,7 +36,7 @@ class UserRouter {
         this.router.patch('/update/profile', GlobalMiddleWare.auth,UserValidators.verifyUserProfile(), GlobalMiddleWare.checkError, UserController.updateProfile); 
     }
     putRoutes() {
-
+        
     }
     deleteRoutes() {
 
