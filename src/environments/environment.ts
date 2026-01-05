@@ -12,7 +12,6 @@ export interface Environment {
         user: string;
         pass: string;
     };
-    
 }
 
 export function getEnvironmentVariables() {

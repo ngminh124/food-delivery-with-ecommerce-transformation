@@ -12,6 +12,8 @@ import CategoryRouter from "./routers/CategoryRouter";
 import ItemRouter from "./routers/ItemRouter";
 import AddressRouter from "./routers/AddressRouter";
 import OrderRouter from "./routers/OrderRouter";
+import * as dotenv from "dotenv";
+import { Utils } from "./utils/Utils";
 
 export class Server {
   public app: express.Application = express();
@@ -24,9 +26,15 @@ export class Server {
   }
   setConfigs() {
     // Set server configurations here
+    this.dotenvConfig();
     this.connectMongoDB();
     this.allowCors();
     this.configureBodyParser();
+  }
+
+  dotenvConfig() {
+    // dotenv.config({path: '.env'});
+    Utils.dotenvConfig();
   }
 
   connectMongoDB() {

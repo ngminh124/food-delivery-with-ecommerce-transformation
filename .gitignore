@@ -8,6 +8,10 @@ LEARNING_REPORT.md
 allcode.ts
 
 # Environment files - Không đẩy lên GitHub
+.env
+.env.local
+.env.development
+.env.production
 src/environments/environment.dev.ts
 src/environments/environment.prod.ts
 
