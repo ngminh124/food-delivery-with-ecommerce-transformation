@@ -46,21 +46,22 @@ export class UserController {
             let user = await new User(data).save();
             const payload= {
                 // user_id: user._id,
-                aud: user._id,
+                // aud: user._id,
                 email: user.email, 
                 type: user.type
             }
-            const token = Jwt.jwtSign(payload);
-            
+            const access_token = Jwt.jwtSign(payload, user._id.toString());
+            const refresh_token = Jwt.jwtSignRefreshToken(payload, user._id.toString());
             res.json({
-                token: token,
+                access_token: access_token,
+                refresh_token: refresh_token,
                 user: user 
             });
             
             // await NodeMailer.sendMail({
             //     to: [user.email],
             //     subject: 'Email verification',
-            //     html: `<p>Your verification token is ${verification_token}. It will expire in 5 minutes.</p>`
+            //     html: `<p>Your verification token is     ${verification_token}. It will expire in 5 minutes.</p>`
             // });
         }
         catch(e){
@@ -139,16 +140,18 @@ export class UserController {
         try{
             await Utils.comparePassword(data);
             const payload= {
-                aud: user._id,
+                // aud: user._id,
                 // user_id: user._id,
                 email: user.email,
                 type: user.type
             }
-            const token = Jwt.jwtSign(payload);
-            console.log('token: ', token);
+            const access_token = Jwt.jwtSign(payload, user._id.toString());
+            const refresh_token = Jwt.jwtSignRefreshToken(payload, user._id.toString());
+            console.log('token: ', access_token);
             
             res.json({
-                token: token,
+                access_token: access_token,
+                refresh_token: refresh_token,
                 user: user 
             });
         }
@@ -280,14 +283,16 @@ export class UserController {
             );
             const payload= {
                 // user_id: user._id,
-                aud: user.aud,
+                // aud: user.aud,
                 email: updatedUser.email, 
                 type: updatedUser.type
             }
-            const token = Jwt.jwtSign(payload);
+            const access_token = Jwt.jwtSign(payload, user.aud);
+            const refresh_token = Jwt.jwtSignRefreshToken(payload, user.aud);
             
             res.json({
-                token: token,
+                access_token: access_token,
+                refresh_token: refresh_token,
                 user: updatedUser 
             });
             
