@@ -32,6 +32,7 @@
     "nodemailer": "^7.0.12",
     "nodemailer-sendgrid-transport": "^0.2.0",
     "nodemon": "^3.1.11",
+    "redis": "^5.10.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   }

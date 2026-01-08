@@ -13,6 +13,12 @@ export interface Environment {
         user: string;
         pass: string;
     };
+    redis:{
+        username: string;
+        password: string;
+        host: string;
+        port: number;
+    }
 }
 
 export function getEnvironmentVariables() {

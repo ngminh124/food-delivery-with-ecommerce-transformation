@@ -14,6 +14,7 @@ import AddressRouter from "./routers/AddressRouter";
 import OrderRouter from "./routers/OrderRouter";
 import * as dotenv from "dotenv";
 import { Utils } from "./utils/Utils";
+import { Redis } from "./utils/Redis";
 
 export class Server {
   public app: express.Application = express();
@@ -28,6 +29,7 @@ export class Server {
     // Set server configurations here
     this.dotenvConfig();
     this.connectMongoDB();
+    this.connectRedis();
     this.allowCors();
     this.configureBodyParser();
   }
@@ -37,11 +39,20 @@ export class Server {
     Utils.dotenvConfig();
   }
 
+
   connectMongoDB() {
     // Connect to MongoDB here
     mongoose.connect(getEnvironmentVariables().db_url).then(() => {
       console.log("Connected to MongoDB");
     });
+  }
+
+   connectRedis() {
+     Redis.connectToRedis();
+    // await Redis.setValue("nguyenminh", "coding"); 
+    // const value = await Redis.getValue("nguyenminh");
+    // console.log("Redis value:", value);
+    // Redis.delKey("nguyenminh");
   }
 
   configureBodyParser() {
