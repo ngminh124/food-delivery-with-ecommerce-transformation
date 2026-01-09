@@ -47,10 +47,12 @@ export class Server {
     });
   }
 
-   connectRedis() {
+   async connectRedis() {
      Redis.connectToRedis();
+    //  await Redis.setValue("nguyenminh", "coding");
+    //  console.log("Redis value:", await Redis.getValue("nguyenminh"));
     // await Redis.setValue("nguyenminh", "coding"); 
-    // const value = await Redis.getValue("nguyenminh");
+    // const value = await Redis.getValue(" nguyenminh");
     // console.log("Redis value:", value);
     // Redis.delKey("nguyenminh");
   }
