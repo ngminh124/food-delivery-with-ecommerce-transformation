@@ -28,7 +28,8 @@ class UserRouter {
     }
     postRoutes() {
         this.router.post('/signup',UserValidators.signup(), GlobalMiddleWare.checkError, UserController.signup); 
-        this.router.post('/refresh_token',UserValidators.checkRefreshToken(), GlobalMiddleWare.checkError, UserController.getNewTokens); 
+        this.router.post('/refresh_token', GlobalMiddleWare.decodeRefreshToken, UserController.getNewTokens); 
+        this.router.post('/logout',  GlobalMiddleWare.decodeRefreshToken,  UserController.logout); 
     }
     patchRoutes() {
         this.router.patch('/reset/password',UserValidators.resetPassword(), GlobalMiddleWare.checkError, UserController.resetPassword); 

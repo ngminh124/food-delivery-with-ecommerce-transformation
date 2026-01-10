@@ -35,6 +35,25 @@ export class GlobalMiddleWare {
     }
   }
 
+  static async decodeRefreshToken(req, res, next) {
+    const refreshToken = req.body.refreshToken;
+    try {
+      if (!refreshToken) {
+        req.errorStatus = 403;
+        // throw('Access is forbidden'); 
+        next(new Error("Access is forbidden"));
+        return;
+      }
+      const decoded = await Jwt.jwtVerifyRefreshToken(refreshToken);
+      req.user = decoded;
+      next();
+    } catch (e) {
+      req.errorStatus = 403;
+      // next(e);
+      next(new Error("Your Session has expired. Please login again..."));
+    }
+  }
+
   static adminRole(req, res, next) {
     const user = req.user;
     // const authHeader= header_auth.split(' ');  const token1= authHeader[1];

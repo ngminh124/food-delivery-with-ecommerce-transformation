@@ -34,8 +34,8 @@ export class Jwt {
     payload: any,
     userId: any,
     expires_in: any = "1y",
-    // redis_ex: number = 60 * 60 * 24 * 365
-    redis_ex: number = 20
+    redis_ex: number = 60 * 60 * 24 * 365
+    // redis_ex: number = 1000
   ) {
     try {
       const refresh_token = JWT.sign(

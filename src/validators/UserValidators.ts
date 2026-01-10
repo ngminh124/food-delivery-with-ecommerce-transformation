@@ -172,16 +172,18 @@
         ];
     }
 
-    static checkRefreshToken() {
-        return [
-        body("refreshToken", "Refresh token is required").isString()
-        .custom((refreshToken, { req }) => {
-            if(refreshToken) return true;
-            else{
-                req.errorStatus = 403;
-                throw new Error("Access is forbidden");
-            }
-        })
-        ];
-    }
+    // static checkRefreshToken() {
+    //     return [
+    //     body("refreshToken", "Refresh token is required").isString()
+    //     .custom((refreshToken, { req }) => {
+    //         if(refreshToken) return true;
+    //         else{
+    //             req.errorStatus = 403;
+    //             throw new Error("Access is forbidden");
+    //         }
+    //     })
+    //     ];
+    // }
+
+    
     }

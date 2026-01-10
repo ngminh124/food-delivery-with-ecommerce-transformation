@@ -4,6 +4,7 @@ import { NodeMailer } from "../utils/NodeMailer";
 import * as JWT from "jsonwebtoken";
 import { getEnvironmentVariables } from "../environments/environment";
 import { Jwt } from "../utils/Jwt";
+import { Redis } from "../utils/Redis";
 
 export class UserController {
   static async signup(req, res, next) {
@@ -364,9 +365,9 @@ export class UserController {
   }
 
   static async getNewTokens(req, res, next) {
-    const refreshToken = req.body.refreshToken;
+    // const refreshToken = req.body.refreshToken;
+    const decoded_data = req.user;
     try {
-      const decoded_data = await Jwt.jwtVerifyRefreshToken(refreshToken);
       if (decoded_data) {
         const payload = {
           // aud: user._id,
@@ -385,6 +386,26 @@ export class UserController {
           refresh_token: refresh_token,
         });
       }
+    } catch (e) {
+      req.errorStatus = 401;
+      next(e);
+    }
+  }
+
+  static async logout(req, res, next) {
+    // const refreshToken = req.body.refreshToken;
+    const decoded_data = req.user;
+    try {
+      if (decoded_data){
+        //delete refresh token from redis
+         await Redis.deleteKey(decoded_data.aud);
+         res.json({ success: true });
+
+      }
+        else{
+          req.errorStatus = 403;
+          throw new Error('Invalid refresh token');
+        }
     } catch (e) {
       req.errorStatus = 401;
       next(e);

@@ -60,7 +60,7 @@ export class Redis {
     }
   }
 
-  static async delKey(key: string) {
+  static async deleteKey(key: string) {
     try{     
       await client.del(key);
     }
