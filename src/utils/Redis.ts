@@ -31,22 +31,42 @@ export class Redis {
   }
 
   static async setValue(key: string, value, expires_at?) {
-    let options: any = {};
-    if (expires_at) {
-      options = {
-        EX: expires_at,
-        NX: true,
-      };
+    try{
+        let options: any = {};
+        if (expires_at) {
+        options = {
+          EX: expires_at,
+          // NX: true, 
+        };
     }
     await client.set(key, value, options);
+    return;
+    }
+    catch(e){
+      console.log(e);
+      // throw new Error('User is not authorized');
+      throw('User is not authorized');
+    }
   }
 
   static async getValue(key: string) {
-    const value = await client.get(key);
-    return value;
+    try{     
+      const value = await client.get(key);
+      return value;
+    }
+    catch(e){
+      console.log(e);
+      throw('Your Session has expired. Please login again...');
+    }
   }
 
   static async delKey(key: string) {
-    await client.del(key);
+    try{     
+      await client.del(key);
+    }
+    catch(e){
+      console.log(e);
+      throw('User does not exist');
+    }
   }
 }

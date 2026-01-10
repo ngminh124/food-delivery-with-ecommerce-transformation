@@ -54,7 +54,7 @@ export class UserController {
         type: user.type,
       };
       const access_token = Jwt.jwtSign(payload, user._id.toString());
-      const refresh_token = Jwt.jwtSignRefreshToken(
+      const refresh_token = await Jwt.jwtSignRefreshToken(
         payload,
         user._id.toString()
       );
@@ -157,7 +157,7 @@ export class UserController {
         type: user.type,
       };
       const access_token = Jwt.jwtSign(payload, user._id.toString());
-      const refresh_token = Jwt.jwtSignRefreshToken(
+      const refresh_token = await Jwt.jwtSignRefreshToken(
         payload,
         user._id.toString()
       );
@@ -345,7 +345,7 @@ export class UserController {
         type: updatedUser.type,
       };
       const access_token = Jwt.jwtSign(payload, user.aud);
-      const refresh_token = Jwt.jwtSignRefreshToken(payload, user.aud);
+      const refresh_token = await Jwt.jwtSignRefreshToken(payload, user.aud);
 
       res.json({
         access_token: access_token,
@@ -375,7 +375,7 @@ export class UserController {
           type: decoded_data.type,
         };
         const access_token = Jwt.jwtSign(payload, decoded_data.aud);
-        const refresh_token = Jwt.jwtSignRefreshToken(
+        const refresh_token = await Jwt.jwtSignRefreshToken(
           payload,
           decoded_data.aud
         );
